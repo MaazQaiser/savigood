@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Soft SaaS Design Tokens (Nexus-inspired) ──────────────────────────── */
+
+@layer base {
+  :root {
+    /* Canvas + surfaces */
+    --background: 220 20% 97%;
+    --foreground: 224 30% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 30% 12%;
+
+    /* Primary — soft violet */
+    --primary: 245 58% 51%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 16% 96%;
+    --secondary-foreground: 224 30% 18%;
+
+    --muted: 220 16% 95%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 245 70% 96%;
+    --accent-foreground: 245 58% 40%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 152 60% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 224 30% 12%;
+
+    --border: 220 16% 90%;
+    --input: 220 16% 90%;
+    --ring: 245 58% 51%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar — white elevated panel */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 10% 40%;
+    --sidebar-border: 220 16% 92%;
+    --sidebar-accent: 220 16% 96%;
+    --sidebar-accent-foreground: 224 30% 12%;
+    --sidebar-primary: 245 58% 51%;
+
+    /* Chart accents (for future widgets) */
+    --chart-1: 245 58% 51%;
+    --chart-2: 174 72% 42%;
+    --chart-3: 210 90% 56%;
+    --chart-4: 199 89% 68%;
+
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 72px;
+    --header-height: 64px;
+    --content-max-width: 1280px;
+  }
+
+  * {
+    @apply border-border;
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans text-sm;
+    line-height: 1.5;
+  }
+
+  h1 { @apply text-h1 font-bold tracking-tight; }
+  h2 { @apply text-h2 font-semibold tracking-tight; }
+  h3 { @apply text-h3 font-semibold; }
+  h4 { @apply text-h4 font-semibold; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-muted-foreground/30; }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  .skeleton {
+    @apply bg-muted animate-skeleton rounded-lg;
+  }
+
+  .focus-ring {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  .card-shadow {
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.04);
+  }
+
+  .soft-shadow {
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+  }
+}
