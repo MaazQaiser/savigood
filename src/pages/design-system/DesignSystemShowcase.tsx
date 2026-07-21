@@ -1,5 +1,4 @@
-import * as React from 'react'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -22,7 +21,6 @@ import { FormField } from '@/components/ui/form-field'
 import { useToast } from '@/hooks/use-toast'
 import {
   FileText,
-  Package,
   Plus,
   Search,
   Download,
@@ -33,7 +31,7 @@ import {
   XCircle,
 } from 'lucide-react'
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="space-y-4">
       <div>
@@ -78,7 +76,6 @@ export function DesignSystemShowcase() {
   const { toast } = useToast()
   const [checked, setChecked] = useState(false)
   const [toggled, setToggled] = useState(false)
-  const [inputError, setInputError] = useState(false)
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8 space-y-14">
