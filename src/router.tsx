@@ -14,8 +14,8 @@ import { PaymentSuccessPage } from '@/pages/buyer/PaymentSuccessPage'
 import { OrderListPage } from '@/pages/buyer/OrderListPage'
 import { OrderDetailsPage } from '@/pages/buyer/OrderDetailsPage'
 import { ChatPage } from '@/pages/buyer/ChatPage'
-import { FilesPage } from '@/pages/buyer/FilesPage'
 import { AccountPage } from '@/pages/buyer/AccountPage'
+import { SubmitRfqPage } from '@/pages/buyer/SubmitRfqPage'
 import { AdminDashboardPage } from '@/pages/admin/DashboardPage'
 import { ClientListPage } from '@/pages/admin/ClientListPage'
 import { ClientDetailsPage } from '@/pages/admin/ClientDetailsPage'
@@ -28,7 +28,6 @@ import { AdminOrderListPage } from '@/pages/admin/AdminOrderListPage'
 import { AdminOrderDetailsPage } from '@/pages/admin/AdminOrderDetailsPage'
 import { ReportsPage } from '@/pages/admin/ReportsPage'
 import { AdminChatPage } from '@/pages/admin/AdminChatPage'
-import { AdminFilesPage } from '@/pages/admin/AdminFilesPage'
 import { LegalLayout } from '@/components/layout/LegalLayout'
 import { TermsOfServicePage } from '@/pages/legal/TermsOfServicePage'
 import { PrivacyPolicyPage } from '@/pages/legal/PrivacyPolicyPage'
@@ -98,7 +97,8 @@ export const router = createBrowserRouter([
       { path: 'orders/:orderId', element: <OrderDetailsPage /> },
       { path: 'chat', element: <ChatPage /> },
       { path: 'chat/:conversationId', element: <ChatPage /> },
-      { path: 'files', element: <FilesPage /> },
+      { path: 'files', element: <Navigate to="/buyer/orders" replace /> },
+      { path: 'rfqs/new', element: <SubmitRfqPage /> },
       { path: 'account', element: <AccountPage /> },
     ],
   },
@@ -122,7 +122,7 @@ export const router = createBrowserRouter([
       { path: 'reports', element: <ReportsPage /> },
       { path: 'chat', element: <AdminChatPage /> },
       { path: 'chat/:conversationId', element: <AdminChatPage /> },
-      { path: 'files', element: <AdminFilesPage /> },
+      { path: 'files', element: <Navigate to="/admin/orders" replace /> },
     ],
   },
   {

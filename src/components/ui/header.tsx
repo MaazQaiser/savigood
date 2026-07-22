@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Bell, ChevronDown, Search, Menu, Plus } from 'lucide-react'
+import { Bell, ChevronDown, Menu, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from './button'
-import { Input } from './input'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +14,6 @@ import { Avatar, AvatarFallback } from './avatar'
 
 interface HeaderProps {
   title?: string
-  showSearch?: boolean
   notificationCount?: number
   variant?: 'buyer' | 'admin'
   user?: {
@@ -29,7 +27,6 @@ interface HeaderProps {
 
 export function Header({
   title,
-  showSearch = true,
   notificationCount = 0,
   variant = 'buyer',
   user = { name: 'Alex Johnson', email: 'alex@company.com', role: 'Buyer' },
@@ -56,20 +53,7 @@ export function Header({
         <h1 className="text-sm font-semibold text-foreground truncate hidden lg:block">{title}</h1>
       )}
 
-      {showSearch && (
-        <div className="relative flex-1 max-w-md mx-auto hidden sm:block">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-          <Input
-            placeholder="Search…"
-            className="pl-9 pr-16 h-10 rounded-xl bg-muted/60 border-0 focus-visible:ring-1 shadow-none"
-          />
-          <kbd className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden md:inline-flex h-5 items-center gap-0.5 rounded-md border bg-card px-1.5 font-mono text-[10px] text-muted-foreground">
-            ⌘F
-          </kbd>
-        </div>
-      )}
-
-      {!showSearch && <div className="flex-1" />}
+      <div className="flex-1" />
 
       <div className="flex items-center gap-1 sm:gap-1.5 ml-auto shrink-0">
         <Button
@@ -131,11 +115,6 @@ export function Header({
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link to={accountHref}>Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to={variant === 'buyer' ? '/buyer/dashboard' : '/admin/dashboard'}>
-                Switch portal
-              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild className="text-destructive focus:text-destructive">

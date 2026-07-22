@@ -81,6 +81,8 @@ export interface UploadedFile {
   type: string
   uploadedAt: string
   category: string
+  orderId?: string
+  rfqId?: string
 }
 
 export interface BuyerProfile {
@@ -377,6 +379,7 @@ export const files: UploadedFile[] = [
     type: 'PDF',
     uploadedAt: '2026-07-14',
     category: 'Purchase Order',
+    orderId: 'ORD-2026-0087',
   },
   {
     id: 'f2',
@@ -385,6 +388,7 @@ export const files: UploadedFile[] = [
     type: 'PDF',
     uploadedAt: '2026-07-10',
     category: 'Specification',
+    orderId: 'ORD-2026-0071',
   },
   {
     id: 'f3',
@@ -393,6 +397,7 @@ export const files: UploadedFile[] = [
     type: 'ZIP',
     uploadedAt: '2026-07-08',
     category: 'Reference',
+    orderId: 'ORD-2026-0064',
   },
   {
     id: 'f4',

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, TrendingUp } from 'lucide-react'
+import { ArrowRight, TrendingUp, TrendingDown, Inbox, FileText, Package, DollarSign } from 'lucide-react'
+import type { ElementType } from 'react'
 import { PageShell, PageHeader } from '@/components/layout/PageShell'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { RfqStatusBadge } from '@/components/admin/StatusBadges'
 import { OrderStatusBadge, QuoteStatusBadge } from '@/components/buyer/StatusBadges'
@@ -15,39 +15,51 @@ import {
   formatCurrency,
   formatDate,
 } from '@/data/admin'
+import { cn } from '@/lib/utils'
 
 function KpiCard({
   label,
   value,
   hint,
+  icon: Icon,
+  iconColor,
   trend,
   trendUp,
+  href,
 }: {
   label: string
   value: string
   hint: string
+  icon: ElementType
+  iconColor: string
   trend?: string
   trendUp?: boolean
+  href?: string
 }) {
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <div className="flex items-start justify-between gap-2">
-          <CardDescription className="text-xs font-medium">{label}</CardDescription>
-          {trend && (
-            <Badge
-              variant={trendUp ? 'success' : 'destructive'}
-              className="gap-0.5 font-medium tabular-nums"
-            >
-              <TrendingUp className={`h-3 w-3 ${trendUp ? '' : 'rotate-180'}`} />
-              {trend}
-            </Badge>
-          )}
+    <Card className="relative overflow-hidden">
+      <CardContent className="pt-5 pb-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
+            <p className="mt-1.5 text-[1.75rem] font-bold tracking-tight leading-none">{value}</p>
+            <p className="mt-2 text-xs text-muted-foreground">{hint}</p>
+            {trend && (
+              <div className={cn('flex items-center gap-1 mt-2 text-xs font-medium', trendUp ? 'text-success' : 'text-destructive')}>
+                {trendUp ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                {trend}
+              </div>
+            )}
+          </div>
+          <div className={cn('flex h-11 w-11 shrink-0 items-center justify-center rounded-xl', iconColor)}>
+            <Icon className="h-5 w-5" />
+          </div>
         </div>
-        <CardTitle className="text-2xl font-bold tracking-tight">{value}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <p className="text-xs text-muted-foreground">{hint}</p>
+        {href && (
+          <Link to={href} className="mt-3 block text-xs text-primary hover:underline">
+            View all →
+          </Link>
+        )}
       </CardContent>
     </Card>
   )
@@ -64,33 +76,44 @@ export function AdminDashboardPage() {
   return (
     <PageShell>
       <PageHeader
-        title="Dashboard"
-        description="Operations overview across clients, RFQs, and orders"
+        title="Operations Dashboard"
+        description="Live overview across clients, RFQs, and fulfillment"
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
         <KpiCard
           label="Open RFQs"
           value={String(openRfqs.length)}
           hint="Needs attention"
+          icon={Inbox}
+          iconColor="bg-primary/10 text-primary"
           trend="3 new"
           trendUp
+          href="/admin/rfqs"
         />
         <KpiCard
           label="Active Quotes"
           value={String(activeQuotes.length)}
           hint="Awaiting buyer"
+          icon={FileText}
+          iconColor="bg-sky-50 text-sky-600"
+          href="/admin/quotes"
         />
         <KpiCard
           label="Open Orders"
           value={String(openOrders.length)}
           hint="In fulfillment"
+          icon={Package}
+          iconColor="bg-emerald-50 text-emerald-600"
+          href="/admin/orders"
         />
         <KpiCard
           label="Order Volume"
           value={formatCurrency(revenue)}
           hint={`${clients.filter((c) => c.status === 'active').length} active clients`}
-          trend="12.4%"
+          icon={DollarSign}
+          iconColor="bg-amber-50 text-amber-600"
+          trend="12.4% vs last month"
           trendUp
         />
       </div>
