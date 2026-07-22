@@ -36,7 +36,7 @@ export function AdminQuoteListPage() {
     )
   }, [search, status])
 
-  const { page, totalPages, pageSize, totalItems, paginated, setPage } = usePagination(filtered, 10)
+  const { page, totalPages, pageSize, totalItems, paginated, setPage } = usePagination(filtered, 5)
 
   return (
     <PageShell>
