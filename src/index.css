@@ -46,13 +46,13 @@
 
     --radius: 0.75rem;
 
-    /* Sidebar — white elevated panel */
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 10% 40%;
-    --sidebar-border: 220 16% 92%;
-    --sidebar-accent: 220 16% 96%;
-    --sidebar-accent-foreground: 224 30% 12%;
-    --sidebar-primary: 245 58% 51%;
+    /* Sidebar — dark/black panel */
+    --sidebar-background: 224 15% 8%;
+    --sidebar-foreground: 220 12% 65%;
+    --sidebar-border: 224 15% 14%;
+    --sidebar-accent: 224 15% 14%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-primary: 245 60% 68%;
 
     /* Chart accents (for future widgets) */
     --chart-1: 245 58% 51%;
