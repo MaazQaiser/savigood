@@ -85,6 +85,8 @@ export interface AdminFile {
   id: string
   name: string
   clientName: string
+  orderId?: string
+  rfqId?: string
   size: string
   type: string
   uploadedAt: string
@@ -454,6 +456,7 @@ export const adminFiles: AdminFile[] = [
     id: 'af1',
     name: 'PO-Acme-Q3-Fasteners.pdf',
     clientName: 'Acme Corporation',
+    orderId: 'ORD-2026-0087',
     size: '248 KB',
     type: 'PDF',
     uploadedAt: '2026-07-14',
@@ -463,6 +466,7 @@ export const adminFiles: AdminFile[] = [
     id: 'af2',
     name: 'Spec-Sheet-Brackets-v2.pdf',
     clientName: 'Globex Inc',
+    orderId: 'ORD-2026-0071',
     size: '1.2 MB',
     type: 'PDF',
     uploadedAt: '2026-07-10',
@@ -472,6 +476,7 @@ export const adminFiles: AdminFile[] = [
     id: 'af3',
     name: 'floor-plan.pdf',
     clientName: 'Umbrella Co',
+    orderId: 'ORD-2026-0064',
     size: '890 KB',
     type: 'PDF',
     uploadedAt: '2026-07-10',
@@ -490,10 +495,21 @@ export const adminFiles: AdminFile[] = [
     id: 'af5',
     name: 'bracket-drawing.dwg',
     clientName: 'Globex Inc',
+    orderId: 'ORD-2026-0079',
     size: '2.1 MB',
     type: 'DWG',
     uploadedAt: '2026-07-16',
     category: 'CAD',
+  },
+  {
+    id: 'af6',
+    name: 'Shipping-Label-ORD-0087.pdf',
+    clientName: 'Acme Corporation',
+    orderId: 'ORD-2026-0087',
+    size: '64 KB',
+    type: 'PDF',
+    uploadedAt: '2026-07-12',
+    category: 'Shipping',
   },
 ]
 

@@ -53,8 +53,16 @@ export function ChatPage() {
       <Card className="flex-1 min-h-0 overflow-hidden flex flex-col md:flex-row">
         {/* Conversation list */}
         <aside className="w-full md:w-72 border-b md:border-b-0 md:border-r shrink-0 flex flex-col max-h-48 md:max-h-none">
-          <div className="px-3 py-2.5 border-b text-xs font-medium text-muted-foreground uppercase tracking-wider">
-            Conversations
+          <div className="px-3 py-2.5 border-b flex items-center justify-between gap-2">
+            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+              Conversations
+            </span>
+            <span
+              title="Chat is organized by your Savi contacts (account managers, support), as agreed in your MSA."
+              className="cursor-help rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground"
+            >
+              By contact
+            </span>
           </div>
           <ul className="overflow-y-auto flex-1">
             {conversations.map((c) => (

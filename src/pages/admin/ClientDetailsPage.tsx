@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { EmptyState } from '@/components/ui/empty-state'
+import { Pagination, usePagination } from '@/components/ui/pagination'
 import { ClientStatusBadge } from '@/components/admin/StatusBadges'
 import { OrderStatusBadge } from '@/components/buyer/StatusBadges'
 import {
@@ -36,6 +37,8 @@ export function ClientDetailsPage() {
 
   const clientOrders = adminOrders.filter((o) => o.clientId === client.id)
   const clientFiles = adminFiles.filter((f) => f.clientName === client.company)
+
+  const ordersPage = usePagination(clientOrders, 5)
 
   return (
     <PageShell>
@@ -109,35 +112,46 @@ export function ClientDetailsPage() {
               {clientOrders.length === 0 ? (
                 <p className="p-6 text-sm text-muted-foreground">No orders yet.</p>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Order</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Total</TableHead>
-                      <TableHead>Status</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {clientOrders.map((o) => (
-                      <TableRow key={o.id}>
-                        <TableCell>
-                          <Link to={`/admin/orders/${o.id}`} className="hover:underline">
-                            <p className="font-medium text-sm">{o.title}</p>
-                            <p className="font-mono text-xs text-muted-foreground">{o.id}</p>
-                          </Link>
-                        </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">
-                          {formatDate(o.createdAt)}
-                        </TableCell>
-                        <TableCell>{formatCurrency(o.total)}</TableCell>
-                        <TableCell>
-                          <OrderStatusBadge status={o.status} />
-                        </TableCell>
+                <>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Order</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Total</TableHead>
+                        <TableHead>Status</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {ordersPage.paginated.map((o) => (
+                        <TableRow key={o.id}>
+                          <TableCell>
+                            <Link to={`/admin/orders/${o.id}`} className="hover:underline">
+                              <p className="font-medium text-sm">{o.title}</p>
+                              <p className="font-mono text-xs text-muted-foreground">{o.id}</p>
+                            </Link>
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {formatDate(o.createdAt)}
+                          </TableCell>
+                          <TableCell>{formatCurrency(o.total)}</TableCell>
+                          <TableCell>
+                            <OrderStatusBadge status={o.status} />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <div className="px-4">
+                    <Pagination
+                      page={ordersPage.page}
+                      totalPages={ordersPage.totalPages}
+                      onPageChange={ordersPage.setPage}
+                      pageSize={ordersPage.pageSize}
+                      totalItems={ordersPage.totalItems}
+                    />
+                  </div>
+                </>
               )}
             </CardContent>
           </Card>

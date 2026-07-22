@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { Check, Package } from 'lucide-react'
+import { Check, Package, FileText, Upload, Paperclip } from 'lucide-react'
 import { PageShell, PageHeader } from '@/components/layout/PageShell'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -17,7 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Separator } from '@/components/ui/separator'
 import { EmptyState } from '@/components/ui/empty-state'
 import { OrderStatusBadge } from '@/components/buyer/StatusBadges'
-import { adminOrders, formatCurrency, formatDate } from '@/data/admin'
+import { adminOrders, adminFiles, formatCurrency, formatDate } from '@/data/admin'
 import type { OrderStatus } from '@/data/buyer'
 import { cn } from '@/lib/utils'
 import { useToast } from '@/hooks/use-toast'
@@ -60,6 +60,7 @@ export function AdminOrderDetailsPage() {
 
   const order = seed
   const currentStatus = status ?? order.status
+  const orderFiles = adminFiles.filter((f) => f.orderId === orderId)
 
   function saveStatus() {
     setSavingStatus(true)
@@ -170,6 +171,52 @@ export function AdminOrderDetailsPage() {
                   ))}
                 </TableBody>
               </Table>
+            </CardContent>
+          </Card>
+
+          {/* Files */}
+          <Card>
+            <CardHeader className="pb-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-base">Files</CardTitle>
+                  <CardDescription>Documents attached to this order</CardDescription>
+                </div>
+                <Button variant="outline" size="sm" className="gap-1.5">
+                  <Upload className="h-3.5 w-3.5" />
+                  Upload
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              {orderFiles.length > 0 ? (
+                <ul className="divide-y divide-border">
+                  {orderFiles.map((f) => (
+                    <li key={f.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
+                        <FileText className="h-4 w-4 text-muted-foreground" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">{f.name}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {f.category} · {f.size} · {formatDate(f.uploadedAt)}
+                        </p>
+                      </div>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                        <Paperclip className="h-4 w-4" />
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="py-6 text-center">
+                  <p className="text-sm text-muted-foreground">No files attached to this order.</p>
+                  <Button variant="outline" size="sm" className="mt-3 gap-1.5">
+                    <Upload className="h-3.5 w-3.5" />
+                    Upload file
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
