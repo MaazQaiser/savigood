@@ -57,10 +57,12 @@ export interface PaymentItem {
   dueDate: string
 }
 
-export interface Conversation {
+export interface Thread {
   id: string
-  name: string
-  role: string
+  refType: 'order' | 'quote'
+  refId: string
+  title: string
+  status: string
   lastMessage: string
   lastAt: string
   unread: number
@@ -68,8 +70,9 @@ export interface Conversation {
 
 export interface ChatMessage {
   id: string
-  conversationId: string
+  threadId: string
   sender: 'buyer' | 'admin'
+  senderName?: string
   text: string
   at: string
 }
@@ -147,7 +150,7 @@ export const quotes: Quote[] = [
     total: 4200,
     depositPercent: 50,
     lineItems: [
-      { id: 'li1', description: 'Corrugated Boxes 24×18×12 (unit)', quantity: 1000, unitPrice: 2.8 },
+      { id: 'li1', description: 'Corrugated Boxes 24x18x12 (unit)', quantity: 1000, unitPrice: 2.8 },
       { id: 'li2', description: 'Bubble Wrap Rolls 12"', quantity: 50, unitPrice: 28 },
     ],
   },
@@ -193,7 +196,7 @@ export const orders: Order[] = [
     carrier: 'UPS',
     estimatedDelivery: '2026-07-22',
     lineItems: [
-      { id: 'li1', description: 'Corrugated Boxes 24×18×12 (unit)', quantity: 1000, unitPrice: 2.8 },
+      { id: 'li1', description: 'Corrugated Boxes 24x18x12 (unit)', quantity: 1000, unitPrice: 2.8 },
       { id: 'li2', description: 'Bubble Wrap Rolls 12"', quantity: 50, unitPrice: 28 },
     ],
     shipmentSteps: [
@@ -313,29 +316,55 @@ export const payments: PaymentItem[] = [
   },
 ]
 
-export const conversations: Conversation[] = [
+export const threads: Thread[] = [
   {
-    id: 'c1',
-    name: 'Sam Wilson',
-    role: 'Account Manager',
-    lastMessage: 'Your quote QT-2026-0142 is ready for review.',
+    id: 'th-ord-0087',
+    refType: 'order',
+    refId: 'ORD-2026-0087',
+    title: 'Packaging Materials — Monthly',
+    status: 'in_transit',
+    lastMessage: 'Tracking updated — estimated delivery July 22.',
+    lastAt: 'Today',
+    unread: 1,
+  },
+  {
+    id: 'th-ord-0071',
+    refType: 'order',
+    refId: 'ORD-2026-0071',
+    title: 'Electrical Conduit Bundle',
+    status: 'in_production',
+    lastMessage: 'Your order is now in production.',
+    lastAt: 'Jul 12',
+    unread: 0,
+  },
+  {
+    id: 'th-ord-0064',
+    refType: 'order',
+    refId: 'ORD-2026-0064',
+    title: 'Warehouse Shelving Units',
+    status: 'confirmed',
+    lastMessage: 'Order confirmed. Production starts next week.',
+    lastAt: 'Jul 15',
+    unread: 0,
+  },
+  {
+    id: 'th-qt-0142',
+    refType: 'quote',
+    refId: 'QT-2026-0142',
+    title: 'Industrial Fasteners — Q3 Bulk',
+    status: 'pending',
+    lastMessage: 'Your quote is ready for review.',
     lastAt: '10:42 AM',
     unread: 2,
   },
   {
-    id: 'c2',
-    name: 'Support Team',
-    role: 'Operations',
-    lastMessage: 'Tracking updated for ORD-2026-0087.',
-    lastAt: 'Yesterday',
-    unread: 1,
-  },
-  {
-    id: 'c3',
-    name: 'Jordan Lee',
-    role: 'Sales',
-    lastMessage: 'Thanks for approving the packaging quote.',
-    lastAt: 'Jul 12',
+    id: 'th-qt-0138',
+    refType: 'quote',
+    refId: 'QT-2026-0138',
+    title: 'Custom Steel Brackets',
+    status: 'pending',
+    lastMessage: 'We need a few more spec details before pricing.',
+    lastAt: 'Jul 10',
     unread: 0,
   },
 ]
@@ -343,31 +372,59 @@ export const conversations: Conversation[] = [
 export const messages: ChatMessage[] = [
   {
     id: 'm1',
-    conversationId: 'c1',
+    threadId: 'th-ord-0087',
     sender: 'admin',
-    text: 'Hi Alex — we’ve finalized the fasteners quote. Please review QT-2026-0142 when you have a moment.',
-    at: '10:30 AM',
+    senderName: 'Sam Wilson',
+    text: 'Hi Alex — tracking has been updated for ORD-2026-0087. Your package is now en route.',
+    at: '9:15 AM',
   },
   {
     id: 'm2',
-    conversationId: 'c1',
+    threadId: 'th-ord-0087',
     sender: 'admin',
+    senderName: 'Sam Wilson',
+    text: 'Estimated delivery July 22. You can copy the tracking number from the order detail page.',
+    at: 'Today',
+  },
+  {
+    id: 'm3',
+    threadId: 'th-qt-0142',
+    sender: 'admin',
+    senderName: 'Sam Wilson',
+    text: 'Hi Alex — we have finalized the fasteners quote. Please review QT-2026-0142 when you get a moment.',
+    at: '10:30 AM',
+  },
+  {
+    id: 'm4',
+    threadId: 'th-qt-0142',
+    sender: 'admin',
+    senderName: 'Sam Wilson',
     text: 'Your quote QT-2026-0142 is ready for review.',
     at: '10:42 AM',
   },
   {
-    id: 'm3',
-    conversationId: 'c1',
-    sender: 'buyer',
-    text: 'Thanks Sam. Looking at it now — a few questions on lead time.',
-    at: '11:05 AM',
+    id: 'm5',
+    threadId: 'th-qt-0138',
+    sender: 'admin',
+    senderName: 'Operations',
+    text: 'Thanks for the bracket request. We need a few more spec details before we can price this accurately.',
+    at: 'Jul 10',
   },
   {
-    id: 'm4',
-    conversationId: 'c2',
+    id: 'm6',
+    threadId: 'th-ord-0071',
     sender: 'admin',
-    text: 'Tracking updated for ORD-2026-0087. Estimated delivery July 22.',
-    at: 'Yesterday',
+    senderName: 'Sam Wilson',
+    text: 'Great news — your Electrical Conduit Bundle order is now in production.',
+    at: 'Jul 12',
+  },
+  {
+    id: 'm7',
+    threadId: 'th-ord-0064',
+    sender: 'admin',
+    senderName: 'Sam Wilson',
+    text: 'Order confirmed. Production is scheduled to start next week.',
+    at: 'Jul 15',
   },
 ]
 

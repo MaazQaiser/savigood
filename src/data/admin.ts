@@ -64,8 +64,12 @@ export interface AdminOrder {
   shipmentSteps: ShipmentStep[]
 }
 
-export interface AdminConversation {
+export interface AdminThread {
   id: string
+  refType: 'order' | 'quote'
+  refId: string
+  title: string
+  status: string
   buyerName: string
   company: string
   lastMessage: string
@@ -75,8 +79,9 @@ export interface AdminConversation {
 
 export interface AdminChatMessage {
   id: string
-  conversationId: string
+  threadId: string
   sender: 'buyer' | 'admin'
+  senderName?: string
   text: string
   at: string
 }
@@ -400,17 +405,25 @@ export const adminOrders: AdminOrder[] = [
   },
 ]
 
-export const adminConversations: AdminConversation[] = [
+export const adminThreads: AdminThread[] = [
   {
-    id: 'ac1',
+    id: 'ath-ord-0087',
+    refType: 'order',
+    refId: 'ORD-2026-0087',
+    title: 'Packaging Materials — Monthly',
+    status: 'in_transit',
     buyerName: 'Alex Johnson',
     company: 'Acme Corporation',
-    lastMessage: 'Thanks Sam. Looking at QT-2026-0142 now.',
-    lastAt: '11:05 AM',
+    lastMessage: 'Tracking updated — estimated delivery July 22.',
+    lastAt: 'Today',
     unread: 1,
   },
   {
-    id: 'ac2',
+    id: 'ath-ord-0071',
+    refType: 'order',
+    refId: 'ORD-2026-0071',
+    title: 'Electrical Conduit Bundle',
+    status: 'in_production',
     buyerName: 'Priya Patel',
     company: 'Globex Inc',
     lastMessage: 'Can we adjust the die setup fee?',
@@ -418,36 +431,91 @@ export const adminConversations: AdminConversation[] = [
     unread: 1,
   },
   {
-    id: 'ac3',
+    id: 'ath-ord-0064',
+    refType: 'order',
+    refId: 'ORD-2026-0064',
+    title: 'Warehouse Shelving Units',
+    status: 'confirmed',
     buyerName: 'Elena Rossi',
     company: 'Umbrella Co',
     lastMessage: 'Shelving quote looks good — proceeding.',
     lastAt: 'Jul 15',
     unread: 0,
   },
+  {
+    id: 'ath-qt-0142',
+    refType: 'quote',
+    refId: 'QT-2026-0142',
+    title: 'Industrial Fasteners — Q3 Bulk',
+    status: 'pending',
+    buyerName: 'Alex Johnson',
+    company: 'Acme Corporation',
+    lastMessage: 'Thanks Sam. Looking at QT-2026-0142 now.',
+    lastAt: '11:05 AM',
+    unread: 0,
+  },
+  {
+    id: 'ath-rfq-088',
+    refType: 'quote',
+    refId: 'RFQ-2026-088',
+    title: 'Industrial Fasteners — Q3 Bulk',
+    status: 'new',
+    buyerName: 'Alex Johnson',
+    company: 'Acme Corporation',
+    lastMessage: 'New RFQ submitted — awaiting review.',
+    lastAt: 'Jul 18',
+    unread: 1,
+  },
 ]
 
 export const adminMessages: AdminChatMessage[] = [
   {
     id: 'am1',
-    conversationId: 'ac1',
+    threadId: 'ath-qt-0142',
     sender: 'admin',
+    senderName: 'Sam Wilson',
     text: 'Hi Alex — QT-2026-0142 is ready for review.',
     at: '10:42 AM',
   },
   {
     id: 'am2',
-    conversationId: 'ac1',
+    threadId: 'ath-qt-0142',
     sender: 'buyer',
+    senderName: 'Alex Johnson',
     text: 'Thanks Sam. Looking at QT-2026-0142 now.',
     at: '11:05 AM',
   },
   {
     id: 'am3',
-    conversationId: 'ac2',
+    threadId: 'ath-ord-0071',
     sender: 'buyer',
-    text: 'Can we adjust the die setup fee?',
+    senderName: 'Priya Patel',
+    text: 'Can we adjust the die setup fee on this order?',
     at: 'Yesterday',
+  },
+  {
+    id: 'am4',
+    threadId: 'ath-ord-0064',
+    sender: 'buyer',
+    senderName: 'Elena Rossi',
+    text: 'Shelving quote looks good — proceeding with the order.',
+    at: 'Jul 15',
+  },
+  {
+    id: 'am5',
+    threadId: 'ath-ord-0087',
+    sender: 'admin',
+    senderName: 'Sam Wilson',
+    text: 'Tracking updated for ORD-2026-0087 — estimated delivery July 22.',
+    at: 'Today',
+  },
+  {
+    id: 'am6',
+    threadId: 'ath-rfq-088',
+    sender: 'buyer',
+    senderName: 'Alex Johnson',
+    text: 'New RFQ submitted for Q3 fasteners — please review when you get a chance.',
+    at: 'Jul 18',
   },
 ]
 
